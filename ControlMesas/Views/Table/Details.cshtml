@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+<style>
+    .container-fluid {
+        height: 100%;
+        background: red;
+        display: flex;
+        padding: 0;
+    }
+    .details {
+        flex: 1;
+        height: 100%;
+        background: #ddd;
+    }
+    .menu {
+        flex: 3;
+        height: 100%;
+        background: #3ab5ff;
+    }
+    .fas{
+        color: #FFF;
+        font-size: 30px;
+        padding: 15px;
+        cursor: pointer;
+    }
+</style>
+<div class="container-fluid" ng-app="ControlMesas" ng-controller="Controller">
+    <div class="details">
+        <p>@ViewBag.Mesa.ID</p>
+        <p>@ViewBag.Mesa.Descripcion</p>
+        <div class="details">
+            <div ng-repeat="item in items">
+                <p>{{ item.Nombre }} x{{ item.Cantidad }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="container-menu" ng-if="!articulos">
+            <a href="#" class="my-option shadow" ng-repeat="cat in categorias" ng-click="searchArt(cat.ID)">
+                {{ cat.Nombre }}
+            </a>
+        </div>
+        <div class="container-menu" ng-if="articulos">
+            <div style="width: 100%;">
+                <i class="fas fa-arrow-circle-left" ng-click="goBack()"></i>
+            </div>
+            <a href="#" class="my-option shadow" ng-repeat="art in articulos" ng-click="insertItem(art)">
+                {{ art.Nombre }}
+            </a>
+        </div>
+    </div>
+</div>
+<script src="~/Content/angular-min.js"></script>
+<script>
+    var app = angular.module("ControlMesas", []);
+    var idMesa = '@ViewBag.Mesa.ID';
+
+    var items = @Html.Raw(Json.Encode(@ViewBag.Items));
+    var categorias = @Html.Raw(Json.Encode(@ViewBag.Categorias));
+
+    app.controller("Controller", function ($scope, $http) {
+
+        $scope.items = items;
+        $scope.categorias = categorias;
+
+        $scope.searchItems = function () {
+
+            $http.get("/api/Resource/GetItemsTable/" + idMesa)
+                .then(function (response) {
+
+                    console.log(response.data);
+
+                    $scope.items = [];
+                    $scope.items = response.data;
+                });
+        }
+
+        $scope.searchArt = function (id) {
+
+            $http.get("/api/Resource/GetArtsId/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+
+                    $scope.articulos = [];
+                    $scope.articulos = response.data;
+
+                });
+        }
+
+        $scope.insertItem = function (item) {
+
+            var usuario = '@ViewBag.IDUsuario', cantidad = parseInt(prompt("Ingrese cantidad", ""));
+
+            if (!isNaN(cantidad) && cantidad > 0) {
+
+                var json = {
+                    "idMesa": parseInt(idMesa),
+                    "idArticulo": item.ID,
+                    "cantidad": cantidad,
+                    "totalArticulo": (item.Precio * cantidad).toFixed(2),
+                    "idUsuario": usuario
+                };
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/Resource/InsertItem/',
+                    data: json,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    $scope.searchItems();
+
+                }, function (response) {
+
+                    console.log(response.error);
+
+                });
+            }
+        }
+
+        $scope.goBack = () => $scope.articulos = null;
+
+    });
+
+</script>

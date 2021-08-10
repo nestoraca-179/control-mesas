@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ControlMesasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Articulos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="80" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="Precio" Type="float" />
+    <Property Name="IDCategoria" Type="int" />
+    <Property Name="Activo" Type="bit" />
+  </EntityType>
+  <EntityType Name="Categorias">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="Mesas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="60" />
+    <Property Name="IDZona" Type="int" />
+  </EntityType>
+  <EntityType Name="MesasItems">
+    <Key>
+      <PropertyRef Name="IDMesaItem" />
+    </Key>
+    <Property Name="IDMesaItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDMesa" Type="int" />
+    <Property Name="IDArticulo" Type="int" />
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="TotalArticulo" Type="float" />
+    <Property Name="IDUsuario" Type="int" />
+    <Property Name="FechaHora" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="60" />
+    <Property Name="Username" Type="varchar" MaxLength="30" />
+    <Property Name="Clave" Type="varchar" MaxLength="50" />
+    <Property Name="Privilegios" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="Zonas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <Association Name="FK__Articulos__IDCat__1BFD2C07">
+    <End Role="Categorias" Type="Self.Categorias" Multiplicity="0..1" />
+    <End Role="Articulos" Type="Self.Articulos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorias">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Articulos">
+        <PropertyRef Name="IDCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Mesas__IDZona__21B6055D">
+    <End Role="Zonas" Type="Self.Zonas" Multiplicity="0..1" />
+    <End Role="Mesas" Type="Self.Mesas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zonas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Mesas">
+        <PropertyRef Name="IDZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MesasItem__IDArt__25869641">
+    <End Role="Articulos" Type="Self.Articulos" Multiplicity="0..1" />
+    <End Role="MesasItems" Type="Self.MesasItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Articulos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MesasItems">
+        <PropertyRef Name="IDArticulo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MesasItem__IDMes__24927208">
+    <End Role="Mesas" Type="Self.Mesas" Multiplicity="0..1" />
+    <End Role="MesasItems" Type="Self.MesasItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mesas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MesasItems">
+        <PropertyRef Name="IDMesa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MesasItem__IDUsu__267ABA7A">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+    <End Role="MesasItems" Type="Self.MesasItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MesasItems">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ControlMesasModelStoreContainer">
+    <EntitySet Name="Articulos" EntityType="Self.Articulos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Categorias" EntityType="Self.Categorias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mesas" EntityType="Self.Mesas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MesasItems" EntityType="Self.MesasItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Zonas" EntityType="Self.Zonas" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Articulos__IDCat__1BFD2C07" Association="Self.FK__Articulos__IDCat__1BFD2C07">
+      <End Role="Categorias" EntitySet="Categorias" />
+      <End Role="Articulos" EntitySet="Articulos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Mesas__IDZona__21B6055D" Association="Self.FK__Mesas__IDZona__21B6055D">
+      <End Role="Zonas" EntitySet="Zonas" />
+      <End Role="Mesas" EntitySet="Mesas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MesasItem__IDArt__25869641" Association="Self.FK__MesasItem__IDArt__25869641">
+      <End Role="Articulos" EntitySet="Articulos" />
+      <End Role="MesasItems" EntitySet="MesasItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MesasItem__IDMes__24927208" Association="Self.FK__MesasItem__IDMes__24927208">
+      <End Role="Mesas" EntitySet="Mesas" />
+      <End Role="MesasItems" EntitySet="MesasItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MesasItem__IDUsu__267ABA7A" Association="Self.FK__MesasItem__IDUsu__267ABA7A">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="MesasItems" EntitySet="MesasItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

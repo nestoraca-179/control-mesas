@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="17a495198e7a44cc8415470666725127" Name="Diagram1">
+        <EntityTypeShape EntityType="ControlMesasModel.Usuarios" Width="2.75" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlMesasModel.Articulos" Width="1.5" PointX="10.5" PointY="2.625" />
+        <EntityTypeShape EntityType="ControlMesasModel.Categorias" Width="1.5" PointX="0.75" PointY="4.625" />
+        <EntityTypeShape EntityType="ControlMesasModel.Mesas" Width="1.5" PointX="6.875" PointY="5.5" />
+        <AssociationConnector Association="ControlMesasModel.FK__Articulos__IDCat__1BFD2C07" />
+        <EntityTypeShape EntityType="ControlMesasModel.Zonas" Width="1.5" PointX="9.875" PointY="6.75" />
+        <AssociationConnector Association="ControlMesasModel.FK__Mesas__IDZona__21B6055D" />
+        <EntityTypeShape EntityType="ControlMesasModel.MesasItems" Width="2.75" PointX="5.125" PointY="1" />
+        <AssociationConnector Association="ControlMesasModel.FK__MesasItem__IDArt__25869641" />
+        <AssociationConnector Association="ControlMesasModel.FK__MesasItem__IDMes__24927208" />
+        <AssociationConnector Association="ControlMesasModel.FK__MesasItem__IDUsu__267ABA7A" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

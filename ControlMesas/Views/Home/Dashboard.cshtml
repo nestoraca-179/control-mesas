@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+<style>
+.container-fluid{
+    height: 100%;
+    padding: 0;
+}
+a.my-table{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+}
+</style>
+<div class="container-fluid" ng-app="ControlMesas" ng-controller="Controller">
+    <div class="header-menu">
+        <ul>
+            <li ng-repeat="zona in zonas"><a href="#" ng-click="setMesas(zona.ID)">{{ zona.Nombre }}</a></li>
+        </ul>
+    </div>
+    <div class="main-container">
+        <div ng-if="mesas" class="tables">
+            <a href="/Table/Details?id={{ mesa.ID }}" class="my-table shadow" ng-repeat="mesa in mesas">
+                {{ mesa.Descripcion }}
+            </a>
+        </div>
+    </div>
+</div>
+<script src="~/Content/angular-min.js"></script>
+<script>
+    var app = angular.module("ControlMesas", []);
+    var zones = @Html.Raw(Json.Encode(@ViewBag.Zones));
+
+    app.controller("Controller", function ($scope, $http) {
+
+        $scope.zonas = zones;
+
+        $scope.setMesas = function (id) {
+
+            $http.get("/api/Resource/GetTablesZone/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+
+                    $scope.mesas = [];
+                    $scope.mesas = response.data;
+
+                });
+        }
+
+    });
+
+</script>

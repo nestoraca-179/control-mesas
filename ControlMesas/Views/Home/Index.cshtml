@@ -1,0 +1,60 @@
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+.header, .footer {
+    display: none;
+}
+.spacer-50 {
+    height: 50px;
+}
+.spacer-40 {
+    height: 40px;
+}
+.spacer-10 {
+    height: 10px;
+}
+.btn {
+    width: 75%;
+    padding: 10px;
+}
+h2 {
+    font-weight: 200;
+}
+.text-danger {
+    font-size: 12px;
+}
+#overlay {
+    background: rgba(76, 146, 255, 0.7);
+}
+</style>
+<div class="container-fluid" style="position: relative; top: 50%; transform: translateY(-50%);">
+    <div class="container-login">
+        <form action="/Account/Login" method="post">
+            <h2>Iniciar Sesión</h2>
+            <div class="spacer-50"></div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-user"></i></div>
+                </div>
+                <input type="text" name="user" class="form-control" placeholder="Usuario">
+            </div>
+            <div class="spacer-10"></div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-key"></i></div>
+                </div>
+                <input type="password" name="pass" class="form-control" placeholder="Clave">
+            </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <p class="text-danger">*@ViewBag.Message*</p>
+                }
+            }
+            <div class="spacer-40"></div>
+            <input type="submit" class="btn btn-primary" value="Enviar" />
+        </form>
+    </div>
+</div>
